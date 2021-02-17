@@ -7,16 +7,29 @@
 
 import UIKit
 
+// 마지막 페이지 주소를 UserDefaults에서 관리하기 위한 키 값
+let lastPageURLDefaultKey: String = "lastURL"
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
+    // MARK: - Properties
+    var window: UIWindow?
+    var lastPageURL: URL?
+    
+    // MARK: - Methods
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        self.lastPageURL = UserDefaults.standard.url(forKey: lastPageURLDefaultKey)
         return true
     }
-
+    func applicationWillResignActive(_ application: UIApplication) {
+        let userDefaults: UserDefaults
+        userDefaults = UserDefaults.standard
+        
+        userDefaults.set(self.lastPageURL, forKey: lastPageURLDefaultKey)
+        userDefaults.synchronize()
+    }
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
